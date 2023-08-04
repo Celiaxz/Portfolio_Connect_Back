@@ -4,7 +4,4 @@ router.get("/", (req, res, next) => {
   res.json("All good in here");
 });
 
-const authRoutes = require("./routes/auth.routes");
-router.use("/auth", authRoutes);
-
 module.exports = router;
