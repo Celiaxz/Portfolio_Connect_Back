@@ -10,6 +10,6 @@ const projectSchema = new Schema({
   comments: { type: Schema.Types.ObjectId, ref: "User" },
 });
 
-const Project = mongoose.model("Project", projectSchema);
+const Project = model("Project", projectSchema);
 
 module.exports = Project;
