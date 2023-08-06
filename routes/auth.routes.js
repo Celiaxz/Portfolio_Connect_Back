@@ -36,11 +36,11 @@ router.post('/login', async (req, res) => {
                 res.status(202).json({ token: authToken })
             } else {
                 //wrong password
-                res.status(403).json({ errorMessage: "Password incorrect" })
+                res.status(403).json({ errorMessage: "User not found or password incorrect" })
             }
         } else {
             //user not found
-            res.status(403).json({ errorMessage: "User not found" })
+            res.status(403).json({ errorMessage: "User not found or password incorrect" })
         }
     } catch (error) {
         console.error(error)
@@ -48,9 +48,11 @@ router.post('/login', async (req, res) => {
 })
 
 //GET verify
-router.get('/verify', isAuthenticated, (req, res) => {
-    //just making a route that will pass the middleware. The middleware is returning the token itself
-    res.json("Middleware passed, token passed to data")
+router.get('/verify', isAuthenticated, async (req, res) => {
+    //just making a route that will pass the middleware.
+    const currentUser = await User.findById(req.auth.userId)
+    currentUser.password = "***"
+    res.json({ tokenStatus: "Middleware passed, token passed to data", currentUser })
 })
 
 module.exports = router;
