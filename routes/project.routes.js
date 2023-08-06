@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Project = require("../models/Project.model");
 const userId = "r7ujbbe6kiu";
+const User = require("../models/User.model");
 
 router.get("/", (req, res, next) => {
   res.json("All good in here");
