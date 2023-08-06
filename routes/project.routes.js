@@ -2,20 +2,25 @@ const router = require("express").Router();
 const Project = require("../models/Project.model");
 const userId = "r7ujbbe6kiu";
 
-// router.get("/create", (req, res, next) => {
-//   res.json("All good in here");
-// });
+router.get("/", (req, res, next) => {
+  res.json("All good in here");
+});
 
 //Create a new project
 router.post("/create", async (req, res) => {
   try {
     console.log("req body is :", req.body);
-    const NewProject = await Project.create({
-      ...req.body,
-      userId,
-    });
-
-    res.status(201).json(NewProject);
+    if (Object.keys(req.body).length === 0) {
+      res
+        .status(500)
+        .json(`invalid payload. Received: ${JSON.stringify(req.body)}`);
+    } else {
+      const NewProject = await Project.create({
+        ...req.body,
+        userId,
+      });
+      res.status(201).json(NewProject);
+    }
   } catch (error) {
     res.send("Error occured, check payload");
     console.log("error occured while creating project: ", error);
