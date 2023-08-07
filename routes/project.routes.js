@@ -20,7 +20,7 @@ router.post("/create", async (req, res) => {
         ...req.body,
         userId,
       });
-      res.status(201).json(NewProject);
+      res.status(200).json(NewProject);
     }
   } catch (error) {
     res.send("Error occured, check payload");
@@ -44,12 +44,11 @@ router.get("/userId/:id", async (req, res) => {
 //Get: http://localhost:5005/project/userId/r7ujbbe6kiu
 
 // Get a specific project by ID for a specific user and populate comments
-router.get("/project/:id", async (req, res) => {
+router.get("/:id", async (req, res) => {
   try {
+    console.log("projectId: ", req.params);
     const projectId = req.params.id;
-    const project = await Project.findById(projectId, { userId }).populate(
-      "comments"
-    );
+    const project = await Project.findById(projectId);
     if (!project) {
       return res.status(404).json({ message: "Project not found" });
     }
