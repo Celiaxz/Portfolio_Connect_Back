@@ -33,7 +33,8 @@ router.post('/login', async (req, res) => {
                     algorithm: "HS256",
                     expiresIn: "3h"
                 })
-                res.status(202).json({ token: authToken })
+                findUser.password = "***"
+                res.status(202).json({ token: authToken, currentUser: findUser })
             } else {
                 //wrong password
                 res.status(403).json({ errorMessage: "User not found or password incorrect" })
