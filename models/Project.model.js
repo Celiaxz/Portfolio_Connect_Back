@@ -6,8 +6,8 @@ const projectSchema = new Schema({
   technologies: { type: [String], required: true },
   repositoryLink: { type: String },
   projectFolder: { type: String },
-  userId: { type: String, required: true },
-  comments: { type: Schema.Types.ObjectId, ref: "User" },
+  userId: { type: Schema.Types.ObjectId, ref: "User" },
+  comments: { type: Schema.Types.ObjectId, ref: "Comment" },
 });
 
 const Project = model("Project", projectSchema);

@@ -18,7 +18,7 @@ router.post("/create", async (req, res) => {
       const NewProject = await Project.create({
         ...req.body
       });
-      await User.findByIdAndUpdate({_id: req.body.userId}, {$push: {projects: NewProject._id}})
+      await User.findByIdAndUpdate({ _id: req.body.userId }, { $push: { projects: NewProject._id } })
       res.status(200).json(NewProject);
     }
   } catch (error) {
@@ -47,7 +47,7 @@ router.get("/:id", async (req, res) => {
   try {
     console.log("projectId: ", req.params);
     const projectId = req.params.id;
-    const project = await Project.findById(projectId);
+    const project = await Project.findById(projectId).populate("userId").populate("comments");
     if (!project) {
       return res.status(404).json({ message: "Project not found" });
     }
