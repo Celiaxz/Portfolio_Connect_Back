@@ -1,6 +1,5 @@
 const router = require("express").Router();
 const Project = require("../models/Project.model");
-const userId = "r7ujbbe6kiu";
 const User = require("../models/User.model");
 
 router.get("/", (req, res, next) => {
@@ -17,9 +16,9 @@ router.post("/create", async (req, res) => {
         .json(`invalid payload. Received: ${JSON.stringify(req.body)}`);
     } else {
       const NewProject = await Project.create({
-        ...req.body,
-        userId,
+        ...req.body
       });
+      await User.findByIdAndUpdate({_id: req.body.userId}, {$push: {projects: NewProject._id}})
       res.status(200).json(NewProject);
     }
   } catch (error) {
