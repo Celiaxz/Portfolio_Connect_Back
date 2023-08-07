@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Project = require("../models/Project.model");
 const User = require("../models/User.model");
+const Comment = require("../models/Comment.model");
 
 router.get("/", (req, res, next) => {
   res.json("All good in here");
@@ -92,5 +93,10 @@ router.delete("/delete/:id", async (req, res) => {
     res.status(500).json({ error: "Error deleting the project" });
   }
 });
+
+const commentRoutes = require("./comment.routes");
+router.use("/", commentRoutes);
+
+
 
 module.exports = router;

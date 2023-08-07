@@ -7,7 +7,7 @@ const projectSchema = new Schema({
   repositoryLink: { type: String },
   projectFolder: { type: String },
   userId: { type: Schema.Types.ObjectId, ref: "User" },
-  comments: { type: Schema.Types.ObjectId, ref: "Comment" },
+  comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }]
 });
 
 const Project = model("Project", projectSchema);

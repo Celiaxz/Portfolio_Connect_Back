@@ -23,6 +23,7 @@ const userSchema = new Schema(
       type: Schema.Types.ObjectId,
       ref: "Project"
     }],
+    comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
     skills: [{
       type: String,
       trim: true,
