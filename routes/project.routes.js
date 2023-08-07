@@ -17,9 +17,14 @@ router.post("/create", async (req, res) => {
         .json(`invalid payload. Received: ${JSON.stringify(req.body)}`);
     } else {
       const NewProject = await Project.create({
-        ...req.body
+        ...req.body,
       });
-      await User.findByIdAndUpdate({ _id: req.body.userId }, { $push: { projects: NewProject._id } })
+
+      await User.findByIdAndUpdate(
+        { _id: req.body.userId },
+        { $push: { projects: NewProject._id } }
+      );
+
       res.status(200).json(NewProject);
     }
   } catch (error) {
@@ -94,9 +99,20 @@ router.delete("/delete/:id", async (req, res) => {
   }
 });
 
+router.get("/all/projects", async (req, res) => {
+  try {
+    console.log("All Projects");
+    const allProjects = await Project.find({});
+    res.status(200).json(allProjects);
+  } catch (error) {
+    console.log("error ocuured while getting all projects:", error);
+    res.status(500).json(error);
+  }
+});
+
+
 const commentRoutes = require("./comment.routes");
 router.use("/", commentRoutes);
-
 
 
 module.exports = router;
