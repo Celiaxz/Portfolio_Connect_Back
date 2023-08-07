@@ -24,18 +24,17 @@ const userSchema = new Schema(
       type: String,
       required: [true, "Password is required."],
     },
-    projects: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: "Project",
-      },
-    ],
-    skills: [
-      {
-        type: String,
-        trim: true,
-      },
-    ],
+
+    projects: [{
+      type: Schema.Types.ObjectId,
+      ref: "Project"
+    }],
+    comments: [{ type: Schema.Types.ObjectId, ref: "Comment" }],
+    skills: [{
+      type: String,
+      trim: true,
+    }],
+
     image: String,
     aboutMe: String,
   },

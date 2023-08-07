@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const Project = require("../models/Project.model");
 const User = require("../models/User.model");
+const Comment = require("../models/Comment.model");
 
 router.get("/", (req, res, next) => {
   res.json("All good in here");
@@ -18,10 +19,12 @@ router.post("/create", async (req, res) => {
       const NewProject = await Project.create({
         ...req.body,
       });
+
       await User.findByIdAndUpdate(
         { _id: req.body.userId },
         { $push: { projects: NewProject._id } }
       );
+
       res.status(200).json(NewProject);
     }
   } catch (error) {
@@ -50,7 +53,7 @@ router.get("/:id", async (req, res) => {
   try {
     console.log("projectId: ", req.params);
     const projectId = req.params.id;
-    const project = await Project.findById(projectId);
+    const project = await Project.findById(projectId).populate("userId").populate("comments");
     if (!project) {
       return res.status(404).json({ message: "Project not found" });
     }
@@ -95,6 +98,7 @@ router.delete("/delete/:id", async (req, res) => {
     res.status(500).json({ error: "Error deleting the project" });
   }
 });
+
 router.get("/all/projects", async (req, res) => {
   try {
     console.log("All Projects");
@@ -105,4 +109,10 @@ router.get("/all/projects", async (req, res) => {
     res.status(500).json(error);
   }
 });
+
+
+const commentRoutes = require("./comment.routes");
+router.use("/", commentRoutes);
+
+
 module.exports = router;
