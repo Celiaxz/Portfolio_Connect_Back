@@ -95,5 +95,13 @@ router.delete("/delete/:id", async (req, res) => {
     res.status(500).json({ error: "Error deleting the project" });
   }
 });
-
+router.get("/all", async (req, res) => {
+  try {
+    const allProjects = await Project.find({});
+    res.status(200).json(allProjects);
+  } catch (error) {
+    console.log("error ocuured while getting all projects:", error);
+    res.status(500).json(error);
+  }
+});
 module.exports = router;
