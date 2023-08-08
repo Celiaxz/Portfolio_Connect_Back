@@ -53,7 +53,13 @@ router.get("/:id", async (req, res) => {
   try {
     console.log("projectId: ", req.params);
     const projectId = req.params.id;
-    const project = await Project.findById(projectId).populate("userId").populate("comments");
+    const project = await Project.findById(projectId).populate("userId").populate({
+      path: 'comments',
+      populate: {
+        path: 'userId',
+        model: 'User'
+      }
+    });
     if (!project) {
       return res.status(404).json({ message: "Project not found" });
     }

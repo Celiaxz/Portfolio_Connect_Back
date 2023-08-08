@@ -20,6 +20,7 @@ router.post("/:projectId/comment", async (req, res) => {
 //GET comment
 router.get("/:projectId/comment/:commentId", async (req, res) => {
     const commentId = req.params.commentId
+    console.log("the commentId id", commentId);
     try {
         const currentComment = await Comment.findById(commentId).populate("userId")
         res.status(201).json(currentComment)
@@ -29,9 +30,26 @@ router.get("/:projectId/comment/:commentId", async (req, res) => {
 })
 
 
-//PUT edit comment
+//PATCH edit comment
+router.patch("/:projectId/comment/:commentId/update", async (req, res) => {
+    const commentId = req.params.commentId
+    try {
+        const currentComment = await Comment.findByIdAndUpdate(commentId, req.body)
+        res.status(200).json(currentComment)
+    } catch (error) {
+        console.error(error)
+    }
+})
 
 //DELETE delete comment
-
+router.delete("/:projectId/comment/:commentId/delete", async (req, res) => {
+    const commentId = req.params.commentId
+    try {
+        await Comment.findByIdAndDelete(commentId)
+        res.status(204).json("comment deleted")
+    } catch (error) {
+        console.error(error)
+    }
+})
 
 module.exports = router;
