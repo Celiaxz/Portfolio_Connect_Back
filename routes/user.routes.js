@@ -33,4 +33,20 @@ router.get("/users/all", async (req, res, next) => {
   }
 });
 
+router.put('/update/:id', async (req, res, next) => {
+  try {
+    const userId = req.params.id;
+    console.log(req)
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      req.body,
+      {new: true}
+    )
+    res.status(200).json(updatedUser)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({error: "error updating user"})
+  }
+})
+
 module.exports = router;
