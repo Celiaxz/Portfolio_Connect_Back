@@ -52,4 +52,15 @@ router.delete("/:projectId/comment/:commentId/delete", async (req, res) => {
     }
 })
 
+//DELETE All comments from a spécifique project
+router.delete('/:projectId/comments/delete', async (req, res) => {
+    const projectId = req.params.projectId
+    try {
+        await Comment.deleteMany({ projectId })
+        res.status(204).json("All comments from project are now deleted")
+    } catch (error) {
+        console.error(error)
+    }
+})
+
 module.exports = router;
